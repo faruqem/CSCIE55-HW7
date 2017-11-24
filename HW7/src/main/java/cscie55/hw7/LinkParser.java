@@ -16,8 +16,7 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * LinkParser class:
@@ -62,7 +61,7 @@ public class LinkParser extends Configured implements Tool {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
 
-        job.setMapperClass(Map.class);
+        job.setMapperClass(MyMap.class);
         //job.setCombinerClass(Reduce.class);
         job.setReducerClass(Reduce.class);
 
@@ -73,7 +72,7 @@ public class LinkParser extends Configured implements Tool {
      * Map class:
      * A nested static class that extends Mapper class.
      */
-    public static class Map extends Mapper<LongWritable, Text, Text, Text> {
+    public static class MyMap extends Mapper<LongWritable, Text, Text, Text> {
 
         /**
          * map() method.
@@ -95,8 +94,8 @@ public class LinkParser extends Configured implements Tool {
             Iterator<String> tagsIterator = tags.iterator();
             while (tagsIterator.hasNext()) {
                 context.write(new Text(linkString), new Text(tagsIterator.next()));
-            }
-        }
+            } //End of WHILE loop
+        } //End of map() method
     } //End of nested Map class
 
     /**
@@ -104,6 +103,8 @@ public class LinkParser extends Configured implements Tool {
      * A nested static class that extends Reducer class.
      */
     public static class Reduce extends Reducer<Text, Text, Text, Text> {
+
+        private Map<String, Set<String>> linkTags = new TreeMap<String, Set<String>>();
 
         /**
          * reduce() method.
@@ -116,11 +117,36 @@ public class LinkParser extends Configured implements Tool {
         @Override
         public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
+            Set<String> tags = new HashSet<>();
             //Iterate through the values
             for (Text value : values) {
-                context.write(key, value);
-            } //End of FOR Loop
+                tags.add(value.toString());
+                //context.write(key, value);
+            } //End of FOR loop
+
+            linkTags.put(key.toString(),tags);
         } //End of reduce() method
+
+
+        @Override
+        public void cleanup(Context context) throws IOException, InterruptedException{
+
+            String tagString = "";
+            String key = "";
+            Set<String> tags = null;
+            Iterator<String> it = null;
+
+            for (Map.Entry<String, Set<String>> entry : linkTags.entrySet()) {
+                key = entry.getKey();
+                tags = entry.getValue();
+                it = tags.iterator();
+                while(it.hasNext()) {
+                    tagString += it.next() + ",";
+                }
+                context.write(new Text(key), new Text(tagString));
+                tagString = "";
+            }
+        }
     } //End of nested Reduce class
 
 } //End of LinkParser class
