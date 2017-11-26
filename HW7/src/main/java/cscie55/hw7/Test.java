@@ -20,12 +20,14 @@ public class Test {
         List<String> lines = new ArrayList<>();
         List<String> allLines = new ArrayList<>();
 
+        /*
         Path outputDirectory = Paths.get("output_problem2");
         try {
             Files.createDirectories(outputDirectory);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
 
 
 
@@ -123,12 +125,15 @@ public class Test {
             }
 
             ///*
-            Path file = Paths.get("output_problem2/part-r-00000");
-            try {
-                Files.write(file, results, Charset.forName("UTF-8"));
-                //Files.write(file, lines, Charset.forName("UTF-8"));
-            } catch (IOException e) {
-                e.printStackTrace();
+            //Path file = Paths.get("output_problem2/part-r-00000");
+            if(args[1] != null) {
+                Path file = Paths.get(args[1]);
+                try {
+                    Files.write(file, results, Charset.forName("UTF-8"));
+                    //Files.write(file, lines, Charset.forName("UTF-8"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             //*/
         }
