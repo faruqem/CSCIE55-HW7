@@ -129,21 +129,27 @@ public class LinkParser extends Configured implements Tool {
 
 
         @Override
-        public void cleanup(Context context) throws IOException, InterruptedException{
+        public void cleanup(Context context) throws IOException, InterruptedException {
 
             String tagString = "";
             String key = "";
             Set<String> tags = null;
-            Iterator<String> it = null;
+            Integer counter = 1;
 
             for (Map.Entry<String, Set<String>> entry : linkTags.entrySet()) {
                 key = entry.getKey();
                 tags = entry.getValue();
-                it = tags.iterator();
-                while(it.hasNext()) {
-                    tagString += it.next() + ",";
+
+                for(String tag: tags) {
+                    if(counter < tags.size()) {
+                        tagString += tag + ", ";
+                    } else {
+                        tagString += tag;
+                    }
+                    counter++;
                 }
                 context.write(new Text(key), new Text(tagString));
+                counter = 1;
                 tagString = "";
             }
         }
