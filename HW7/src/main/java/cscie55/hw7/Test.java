@@ -29,10 +29,6 @@ public class Test {
         }
         */
 
-
-
-
-
         if (args[0] != null) {
 
             try (Stream<Path> paths = Files.walk(Paths.get(args[0]))) {
@@ -124,7 +120,7 @@ public class Test {
                 tagString = "";
             }
 
-            ///*
+            /*
             //Path file = Paths.get("output_problem2/part-r-00000");
             if(args[1] != null) {
                 Path file = Paths.get(args[1]);
@@ -135,7 +131,23 @@ public class Test {
                     e.printStackTrace();
                 }
             }
-            //*/
+            */
+
+            Test t = new Test();
+            t.writeToFile(args[1], results);
+        }
+    }
+
+    //private static void writeToFile(String filePath, List<String> content){
+    private void writeToFile(String filePath, List<String> content){
+        if(filePath != null) {
+            Path file = Paths.get(filePath);
+            try {
+                Files.write(file, content, Charset.forName("UTF-8"));
+                //Files.write(file, lines, Charset.forName("UTF-8"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
