@@ -5,6 +5,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -19,6 +21,7 @@ public class Test {
         List<Path> files = new ArrayList<>();
         List<String> lines = new ArrayList<>();
         List<String> allLines = new ArrayList<>();
+        List<String> eligibleLines = new ArrayList<>();
 
         /*
         Path outputDirectory = Paths.get("output_problem2");
@@ -37,7 +40,7 @@ public class Test {
                         .collect(Collectors.toList());
                         //.forEach(System.out::println);
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
 
             for( Path path: files) {
@@ -55,15 +58,38 @@ public class Test {
             }
 
 
+            Test t = new Test();
+
             String linkString;
             List<String> linkTagsList;
+            Long linkDateinPastSeconds;
+            Long startSeconds;
+            Long endSeconds;
+
+            if(args.length == 4) {
+                startSeconds = t.secondsPast(args[2]);
+                endSeconds = t.secondsPast(args[3]);
+
+                for(String line: allLines) {
+                    Link link = Link.parse(line);
+                    linkDateinPastSeconds = link.timestamp();
+                    if(linkDateinPastSeconds >= startSeconds
+                            && linkDateinPastSeconds <= endSeconds){
+                        eligibleLines.add(line);
+                    }
+                }
+            } else {
+                eligibleLines = allLines;
+            }
 
 
-            for(String line: allLines){
+            for(String line: eligibleLines) {
                 //System.out.println(line);
                 Link link = Link.parse(line);
                 linkString = link.url();
                 linkTagsList = link.tags();
+
+
                 Set<String> linkTagsSet = new HashSet<String>();
 
                 //System.out.print("*****"+ linkString+"\n");
@@ -79,7 +105,7 @@ public class Test {
                 }*/
 
 
-                ///*
+                /*
                 if(linkTagsMap.containsKey(linkString)) {
                     linkTagsSet = linkTagsMap.get(linkString);
                     for(String tag: linkTagsList) {
@@ -92,11 +118,18 @@ public class Test {
                     }
                     linkTagsMap.put(linkString, linkTagsSet);
                 }
-                //*/
+                */
+                if(linkTagsMap.containsKey(linkString)) {
+                    linkTagsSet = linkTagsMap.get(linkString);
+                }
+                for(String tag: linkTagsList) {
+                    linkTagsSet.add(tag);
+                }
+                linkTagsMap.put(linkString, linkTagsSet);
             }
 
 
-            Test t = new Test();
+
 
             /*
             String tagString = "";
@@ -203,5 +236,19 @@ public class Test {
         } else {
             System.out.println("No output file path supplied!");
         }
+    }
+
+    private Long secondsPast(String startEndDate){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("EST"));
+        Date startDate = null;
+        try{
+            startDate = simpleDateFormat.parse(startEndDate);
+        } catch(ParseException pe) {
+
+        }
+        Long pastSeconds = startDate.getTime()/1000;
+
+        return pastSeconds;
     }
 }
