@@ -96,6 +96,9 @@ public class Test {
             }
 
 
+            Test t = new Test();
+
+            /*
             String tagString = "";
             String key;
             Set<String> tags;
@@ -119,6 +122,9 @@ public class Test {
                 counter = 1;
                 tagString = "";
             }
+            */
+
+            results = t.prepareResults(linkTagsMap);
 
             /*
             //Path file = Paths.get("output_problem2/part-r-00000");
@@ -133,21 +139,69 @@ public class Test {
             }
             */
 
-            Test t = new Test();
+
             t.writeToFile(args[1], results);
         }
     }
 
+    private List<String> prepareResults(Map<String, Set<String>> linkTagsMap){
+
+        String tagString;
+        String key;
+        Set<String> tags;
+        //Integer counter = 1;
+        Test t = new Test();
+
+        for (Map.Entry<String, Set<String>> entry : linkTagsMap.entrySet()) {
+            key = entry.getKey();
+            tags = entry.getValue();
+
+            /*for(String tag: tags) {
+                if(counter < tags.size()) {
+                    tagString += tag + ", ";
+                } else {
+                    tagString += tag;
+                }
+                counter++;
+            }*/
+
+            tagString = t.concatTagsWithComma(tags);
+
+            //System.out.println(key+ " "+tagString);
+            results.add(key+ " "+tagString);
+            //counter = 1;
+            //tagString = "";
+        }
+
+        return results;
+    }
+
+    private String concatTagsWithComma(Set<String> tags){
+        String tagString = "";
+        Integer counter = 1;
+        for(String tag: tags) {
+            if(counter < tags.size()) {
+                tagString += tag + ", ";
+            } else {
+                tagString += tag;
+            }
+            counter++;
+        }
+        return tagString;
+    }
+
     //private static void writeToFile(String filePath, List<String> content){
-    private void writeToFile(String filePath, List<String> content){
+    private void writeToFile(String filePath, List<String> content) {
         if(filePath != null) {
             Path file = Paths.get(filePath);
             try {
                 Files.write(file, content, Charset.forName("UTF-8"));
                 //Files.write(file, lines, Charset.forName("UTF-8"));
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ioe) {
+                //ioe.printStackTrace();
             }
+        } else {
+            System.out.println("No output file path supplied!");
         }
     }
 }
