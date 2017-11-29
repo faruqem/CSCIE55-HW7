@@ -22,6 +22,7 @@ public class Test {
         List<String> lines = new ArrayList<>();
         List<String> allLines = new ArrayList<>();
         List<String> eligibleLines = new ArrayList<>();
+        Boolean isCountEachLink = false;
 
         /*
         Path outputDirectory = Paths.get("output_problem2");
@@ -78,8 +79,10 @@ public class Test {
                         eligibleLines.add(line);
                     }
                 }
+                isCountEachLink = true;
             } else {
                 eligibleLines = allLines;
+                //isCountEachLink = true;
             }
 
 
@@ -92,87 +95,28 @@ public class Test {
 
                 Set<String> linkTagsSet = new HashSet<String>();
 
-                //System.out.print("*****"+ linkString+"\n");
-                //System.out.println("#######"+line);
-
-                /*System.out.println("----------------");
-                for(String tag: linkTagsList) {
-                    System.out.println(tag);
-                }*/
-                /*
-                if(linkTagsList.size()==0){
-                    System.out.println("Empty tag!");
-                }*/
-
-
-                /*
-                if(linkTagsMap.containsKey(linkString)) {
-                    linkTagsSet = linkTagsMap.get(linkString);
-                    for(String tag: linkTagsList) {
-                        linkTagsSet.add(tag);
-                    }
-                    linkTagsMap.put(linkString, linkTagsSet);
-                } else {
-                    for(String tag: linkTagsList) {
-                        linkTagsSet.add(tag);
-                    }
-                    linkTagsMap.put(linkString, linkTagsSet);
-                }
-                */
                 if(linkTagsMap.containsKey(linkString)) {
                     linkTagsSet = linkTagsMap.get(linkString);
                 }
-                for(String tag: linkTagsList) {
-                    linkTagsSet.add(tag);
+
+                if(!isCountEachLink ) {
+                    for(String tag: linkTagsList) {
+                        linkTagsSet.add(tag);
+                    }
+                } else { //Problem 2 Part2
+                    if(linkTagsSet.size()== 0){
+                        linkTagsSet.add("1");
+                    } else {
+                        for(String s: linkTagsSet ) {
+                            linkTagsSet.add((Integer.toString(Integer.parseInt(s)+1)));
+                            linkTagsSet.remove(s);
+                        }
+                    }
                 }
                 linkTagsMap.put(linkString, linkTagsSet);
             }
 
-
-
-
-            /*
-            String tagString = "";
-            String key;
-            Set<String> tags;
-            Integer counter = 1;
-
-            for (Map.Entry<String, Set<String>> entry : linkTagsMap.entrySet()) {
-                key = entry.getKey();
-                tags = entry.getValue();
-
-                for(String tag: tags) {
-                    if(counter < tags.size()) {
-                        tagString += tag + ", ";
-                    } else {
-                        tagString += tag;
-                    }
-                    counter++;
-                }
-
-                //System.out.println(key+ " "+tagString);
-                results.add(key+ " "+tagString);
-                counter = 1;
-                tagString = "";
-            }
-            */
-
             results = t.prepareResults(linkTagsMap);
-
-            /*
-            //Path file = Paths.get("output_problem2/part-r-00000");
-            if(args[1] != null) {
-                Path file = Paths.get(args[1]);
-                try {
-                    Files.write(file, results, Charset.forName("UTF-8"));
-                    //Files.write(file, lines, Charset.forName("UTF-8"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            */
-
-
             t.writeToFile(args[1], results);
         }
     }
@@ -189,21 +133,9 @@ public class Test {
             key = entry.getKey();
             tags = entry.getValue();
 
-            /*for(String tag: tags) {
-                if(counter < tags.size()) {
-                    tagString += tag + ", ";
-                } else {
-                    tagString += tag;
-                }
-                counter++;
-            }*/
-
             tagString = t.concatTagsWithComma(tags);
 
-            //System.out.println(key+ " "+tagString);
             results.add(key+ " "+tagString);
-            //counter = 1;
-            //tagString = "";
         }
 
         return results;
