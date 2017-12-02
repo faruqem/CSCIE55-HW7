@@ -16,15 +16,15 @@ public class LinkStreamer {
 
     public static void main(String[] args) throws Exception {
 
-        List<Path> files = new ArrayList<>();
+        //List<Path> files = new ArrayList<>();
         //List<String> lines = new ArrayList<>();
-        List<String> allLines = new ArrayList<>();
-        List<String> eligibleLines = new ArrayList<>();
+        //List<String> allLines = new ArrayList<>();
+        //List<String> eligibleLines = new ArrayList<>();
         Boolean isCountEachLink = false;
-
+        Link link = null;
         //if (args[0] != null) {
 
-        allLines =
+        List<String> eligibleLines =
         Files.list(Paths.get(args[0]))
                     .filter(Files::isRegularFile)
                     .flatMap(s -> {
@@ -35,28 +35,37 @@ public class LinkStreamer {
                         }
                         return null;
                     })
-                //.forEach(System.out::println);
+                    .filter(l ->
+                            args.length == 2
+                            || (
+                                    args.length == 4
+                                    && Link.parse(l).timestamp() >= LinkStreamer.secondsPast(args[2])
+                                    && Link.parse(l).timestamp() <= LinkStreamer.secondsPast(args[3])
+                            )
+                    )
+                    //.peek(System.out::println)
                     .collect(Collectors.toList());
+                    //System.out.println(allLines.size());
 
 
 
 
 
-
-            LinkStreamer t = new LinkStreamer();
+            //LinkStreamer t = new LinkStreamer();
 
             String linkString;
             List<String> linkTagsList;
-            Long linkDateinPastSeconds;
-            Long startSeconds;
-            Long endSeconds;
+            //Long linkDateinPastSeconds;
+            //Long startSeconds;
+            //Long endSeconds;
 
-            if(args.length == 4) {
-                startSeconds = t.secondsPast(args[2]);
-                endSeconds = t.secondsPast(args[3]);
+
+            /*if(args.length == 4) {
+                startSeconds = LinkStreamer.secondsPast(args[2]);
+                endSeconds = LinkStreamer.secondsPast(args[3]);
 
                 for(String line: allLines) {
-                    Link link = Link.parse(line);
+                    link = Link.parse(line);
                     linkDateinPastSeconds = link.timestamp();
                     if(linkDateinPastSeconds >= startSeconds
                             && linkDateinPastSeconds <= endSeconds){
@@ -67,12 +76,12 @@ public class LinkStreamer {
             } else {
                 eligibleLines = allLines;
                 //isCountEachLink = true;
-            }
+            }*/
 
 
             for(String line: eligibleLines) {
                 //System.out.println(line);
-                Link link = Link.parse(line);
+                link = Link.parse(line);
                 linkString = link.url();
                 linkTagsList = link.tags();
 
@@ -83,7 +92,7 @@ public class LinkStreamer {
                     linkTagsSet = linkTagsMap.get(linkString);
                 }
 
-                if(!isCountEachLink ) {
+                if(args.length != 4 ) {
                     for(String tag: linkTagsList) {
                         linkTagsSet.add(tag);
                     }
@@ -101,13 +110,13 @@ public class LinkStreamer {
             }
 
 
-            results = t.prepareResults(linkTagsMap);
+            results = LinkStreamer.prepareResults(linkTagsMap);
         //System.out.println(results);
-            t.writeToFile(args[1], results);
+        LinkStreamer.writeToFile(args[1], results);
         //} //End of if (args[0] != null) block
     }
 
-    private List<String> prepareResults(Map<String, Set<String>> linkTagsMap){
+    private static List<String> prepareResults(Map<String, Set<String>> linkTagsMap){
 
         String tagString;
         String key;
@@ -142,7 +151,7 @@ public class LinkStreamer {
     }
 
     //private static void writeToFile(String filePath, List<String> content){
-    private void writeToFile(String filePath, List<String> content) {
+    private static void writeToFile(String filePath, List<String> content) {
         if(filePath != null) {
             Path file = Paths.get(filePath);
             try {
@@ -156,7 +165,7 @@ public class LinkStreamer {
         }
     }
 
-    private Long secondsPast(String startEndDate){
+    private static Long secondsPast(String startEndDate){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("EST"));
         Date startDate = null;
