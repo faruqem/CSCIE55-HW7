@@ -1,5 +1,6 @@
 package cscie55.hw7;
 
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -15,7 +16,7 @@ public class Test {
 
     private static Map<String, Set<String>> linkTagsMap = new TreeMap<String, Set<String>>();
     private static List<String> results = new ArrayList<String>();
-
+/*
     public static void main(String[] args) {
 
         List<Path> files = new ArrayList<>();
@@ -24,14 +25,7 @@ public class Test {
         List<String> eligibleLines = new ArrayList<>();
         Boolean isCountEachLink = false;
 
-        /*
-        Path outputDirectory = Paths.get("output_problem2");
-        try {
-            Files.createDirectories(outputDirectory);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
+
 
         if (args[0] != null) {
 
@@ -183,4 +177,5 @@ public class Test {
 
         return pastSeconds;
     }
+    */
 }
