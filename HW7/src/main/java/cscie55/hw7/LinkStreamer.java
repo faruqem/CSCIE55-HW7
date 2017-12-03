@@ -10,6 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
+
 public class LinkStreamer {
     private static Map<String, Set<String>> linkTagsMap = new TreeMap<String, Set<String>>();
     private static List<String> results = new ArrayList<String>();
@@ -19,12 +23,12 @@ public class LinkStreamer {
         //List<Path> files = new ArrayList<>();
         //List<String> lines = new ArrayList<>();
         //List<String> allLines = new ArrayList<>();
-        //List<String> eligibleLines = new ArrayList<>();
+        //List<String> linesList = new ArrayList<>();
         Boolean isCountEachLink = false;
         Link link = null;
         //if (args[0] != null) {
 
-        List<String> eligibleLines =
+        List<String> linesList =
         Files.list(Paths.get(args[0]))
                     .filter(Files::isRegularFile)
                     .flatMap(s -> {
@@ -43,13 +47,57 @@ public class LinkStreamer {
                                     && Link.parse(l).timestamp() <= LinkStreamer.secondsPast(args[3])
                             )
                     )
+                    //.sorted()
                     //.peek(System.out::println)
                     .collect(Collectors.toList());
-                    //System.out.println(allLines.size());
+
+        Map<String, Long> linkCountMap
+                = linesList
+                    .stream()
+                    .map(line -> Link.parse(line).url())
+                    //.sorted()
+                    //.peek(System.out::println)
+                    .collect(groupingBy(identity(),counting()));
 
 
+        //linkCountMap.forEach((key, value) -> System.out.println(key + " " + value));
+
+        Files.write(
+                Paths.get(args[1]),
+                        () -> linkCountMap
+                                .entrySet()
+                                .stream()
+                                .<CharSequence>map(e -> e.getKey() + " " + e.getValue())
+                                .sorted()
+                                .iterator()
+        );
+
+        /*List<String> outputLinesList = new ArrayList<String>();
+        linkCountMap.forEach((key, value) -> outputLinesList .add(key + " " + value));
+        Files.write(Paths.get(args[1]),outputLinesList , StandardCharsets.UTF_8);*/
 
 
+        //System.out.println(linkCountMap);
+
+        /*Map<String,Set<String>> linkTagsMap1
+                = linesList
+                .stream()
+                .collect(Collectors.groupingBy(
+                        line -> Link.parse(line).url(),
+                        Collectors.mapping(line -> Link.parse(line).tags(),Collectors.toSet())
+                        )
+                );*/
+                /*.collect(
+                            toMap(
+                                    line -> Link.parse(line).url(),
+                                    line -> Link.parse(line).tags(),
+                                    (t1,t2)-> {
+                                        Set<String> tagsSet
+                                        = Stream.concat(t1.stream(), t2.stream())
+                                                .collect(Collectors.toSet());
+                                    }
+                            )
+                        );*/
 
             //LinkStreamer t = new LinkStreamer();
 
@@ -57,7 +105,7 @@ public class LinkStreamer {
             List<String> linkTagsList;
             //Long linkDateinPastSeconds;
             //Long startSeconds;
-            //Long endSeconds;
+            //Long endSeconds;zz
 
 
             /*if(args.length == 4) {
@@ -69,21 +117,22 @@ public class LinkStreamer {
                     linkDateinPastSeconds = link.timestamp();
                     if(linkDateinPastSeconds >= startSeconds
                             && linkDateinPastSeconds <= endSeconds){
-                        eligibleLines.add(line);
+                        linesList.add(line);
                     }
                 }
                 isCountEachLink = true;
             } else {
-                eligibleLines = allLines;
+                linesList = allLines;
                 //isCountEachLink = true;
             }*/
 
-
-            for(String line: eligibleLines) {
+            //Switch on if needed
+        /*
+            for(String line: linesList) {
                 //System.out.println(line);
-                link = Link.parse(line);
-                linkString = link.url();
-                linkTagsList = link.tags();
+                //link = Link.parse(line);
+                linkString = Link.parse(line).url();
+                linkTagsList = Link.parse(line).tags();
 
 
                 Set<String> linkTagsSet = new HashSet<String>();
@@ -114,6 +163,7 @@ public class LinkStreamer {
         //System.out.println(results);
         LinkStreamer.writeToFile(args[1], results);
         //} //End of if (args[0] != null) block
+        */ //Switch on if needed
     }
 
     private static List<String> prepareResults(Map<String, Set<String>> linkTagsMap){
