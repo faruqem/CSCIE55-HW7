@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.joining;
 
 public class LinkStreamer {
 
@@ -47,7 +48,7 @@ public class LinkStreamer {
                     //.sorted()
                     //.peek(System.out::println)
                     .collect(groupingBy(identity(), counting()));
-            
+
             Files.write(
                     Paths.get(args[1]),
                     //() -> linkCountMap
@@ -78,8 +79,15 @@ public class LinkStreamer {
                 linkTagsMap.put(linkURLString, linkTagsSet);
             }
 
-            Map<String, String> linkTagsStringMap = LinkStreamer.prepareResults(linkTagsMap);
+            
             //linkCountMap.forEach((key, value) -> System.out.println(key + " " + value));
+            Map<String, String> linkTagsStringMap
+                =linkTagsMap
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(l -> l.getKey(),l -> l.getValue().stream().collect(joining(", "))));
+
+            //System.out.println(linkTagsStringMap1);
 
             Files.write(
                     Paths.get(args[1]),
@@ -96,40 +104,6 @@ public class LinkStreamer {
         }
     }
 
-    private static Map<String, String> prepareResults(Map<String, Set<String>> linkTagsMap){
-
-        String tagString;
-        String key;
-        Set<String> tags;
-        //Integer counter = 1;
-        //LinkStreamer t = new LinkStreamer();
-        Map<String,String> linkTagsStringMap = new TreeMap<>();
-
-        for (Map.Entry<String, Set<String>> entry : linkTagsMap.entrySet()) {
-            key = entry.getKey();
-            tags = entry.getValue();
-
-            tagString = LinkStreamer.concatTagsWithComma(tags);
-
-            linkTagsStringMap.put(key, tagString);
-        }
-
-        return linkTagsStringMap;
-    }
-
-    private static String concatTagsWithComma(Set<String> tags){
-        String tagString = "";
-        Integer counter = 1;
-        for(String tag: tags) {
-            if(counter < tags.size()) {
-                tagString += tag + ", ";
-            } else {
-                tagString += tag;
-            }
-            counter++;
-        }
-        return tagString;
-    }
 
     private static Long secondsPast(String startEndDate){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
