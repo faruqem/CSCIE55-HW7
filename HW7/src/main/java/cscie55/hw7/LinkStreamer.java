@@ -13,8 +13,26 @@ import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
 
+/**
+ * LinkStreamer class:
+ * This class does the link URL and tag counting using Java 8 features
+ * and not using the Map  Reduce framework.
+ *
+ * @version     1.0
+ * @since       1.0
+ */
 public class LinkStreamer {
 
+    /**
+     * main() method
+     *
+     * @params args A string array of arguments.
+     * Expects two mandatory and two optional arguments.
+     * Two mandatory arguments: A input directory path with all the links file saved into it and
+     * an output file name to save the results. If output file already exists it will be overwritten.
+     *
+     * Two optional arguments: start and end date of the links in the format [dd-mm-yyyy]
+     */
     public static void main(String[] args) throws Exception {
 
         //Extract the lines from the files saved in the input directory args[0]
@@ -139,10 +157,17 @@ public class LinkStreamer {
         }
     }
 
-    //This is just to calculate the seconds past since 1970 based
-    //on the passed start and end date - args[2] & args[3]
-    //This is a utility method, that's why did not directly incorporate it in
-    //the streaming section for clarity reason and also did not see any advantage.
+
+    /**
+     *
+     * @param startEndDate Start or end date in the format [dd-MM-yyyy]
+     * @return pastSeconds as Long since January 1, 1970
+     *
+     * This is just to calculate the seconds past since January 1, 1970 based
+     * on the passed start and end date - args[2] & args[3].
+     * This is a utility method, that's why did not directly incorporate it in
+     * the streaming section for clarity reason and also did not see any advantage.
+     */
     private static Long secondsPast(String startEndDate){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("EST"));
