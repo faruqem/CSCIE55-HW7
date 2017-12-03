@@ -20,23 +20,20 @@ public class LinkStreamer {
         List<String> linesList =
         Files.list(Paths.get(args[0]))
                     .filter(Files::isRegularFile)
-                    .flatMap(s -> {
+                    .flatMap(l -> {
                         try {
-                            return Files.lines(s);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                            return Files.lines(l);
+                        } catch (IOException ioe) { }
                         return null;
                     })
-                    .filter(l ->
+                    .filter(line ->
                             args.length == 2
                             || (
                                     args.length == 4
-                                    && Link.parse(l).timestamp() >= LinkStreamer.secondsPast(args[2])
-                                    && Link.parse(l).timestamp() <= LinkStreamer.secondsPast(args[3])
+                                    && Link.parse(line).timestamp() >= LinkStreamer.secondsPast(args[2])
+                                    && Link.parse(line).timestamp() <= LinkStreamer.secondsPast(args[3])
                             )
                     )
-                    //.sorted()
                     //.peek(System.out::println)
                     .collect(Collectors.toList());
 
@@ -45,13 +42,11 @@ public class LinkStreamer {
                     = linesList
                     .stream()
                     .map(line -> Link.parse(line).url())
-                    //.sorted()
                     //.peek(System.out::println)
                     .collect(groupingBy(identity(), counting()));
 
             Files.write(
                     Paths.get(args[1]),
-                    //() -> linkCountMap
                     () -> linkCountMap
                             .entrySet()
                             .stream()
@@ -60,7 +55,7 @@ public class LinkStreamer {
                             .iterator()
             );
         } else if (args.length == 2) {
-            Map<String, Set<String>> linkTagsMap = new TreeMap<String, Set<String>>();
+            /*Map<String, Set<String>> linkTagsMap = new TreeMap<String, Set<String>>();
             for (String line : linesList) {
                 String linkURLString = Link.parse(line).url();
                 List<String> linkTagsList = Link.parse(line).tags();
@@ -77,21 +72,43 @@ public class LinkStreamer {
                 }
 
                 linkTagsMap.put(linkURLString, linkTagsSet);
-            }
+            }*/
+            Map<String, String> linkDupTagsStringMap
+                    = linesList
+                    .stream()
+                    .collect(Collectors.toMap(
+                            l -> Link.parse(l).url(),
+                            l -> Link.parse(l).tags().stream().collect(joining(", ")),
+                            (l1,l2) -> l1 + l2
+                            )
+                    );
 
-            
+
+            Map<String, Set<String>> linkTagsMap
+                    = linkDupTagsStringMap.entrySet().stream()
+                    .collect(Collectors.toMap(
+                            lt -> lt.getKey(),
+                            lt->Arrays.stream(lt.getValue().split(", "))
+                                    .map(t->t.trim()).distinct().collect(Collectors.toSet())
+                    ));
+
+
             //linkCountMap.forEach((key, value) -> System.out.println(key + " " + value));
             Map<String, String> linkTagsStringMap
                 =linkTagsMap
                     .entrySet()
                     .stream()
-                    .collect(Collectors.toMap(l -> l.getKey(),l -> l.getValue().stream().collect(joining(", "))));
+                    .collect(Collectors.toMap(
+                            l -> l.getKey(),
+                            l -> l.getValue()
+                                    .stream()
+                                    .collect(joining(", "))
+                            )
+                    );
 
-            //System.out.println(linkTagsStringMap1);
 
             Files.write(
                     Paths.get(args[1]),
-                    //() -> linkCountMap
                     () -> linkTagsStringMap
                             .entrySet()
                             .stream()
