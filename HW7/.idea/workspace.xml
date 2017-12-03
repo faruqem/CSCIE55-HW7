@@ -29,13 +29,12 @@
       <file leaf-file-name="LinkStreamer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/cscie55/hw7/LinkStreamer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="15" column="27" lean-forward="true" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
+            <state relative-caret-position="223">
+              <caret line="144" column="28" lean-forward="false" selection-start-line="144" selection-start-column="28" selection-end-line="144" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1936#1950#0" expanded="true" />
-                <element signature="e#4342#4356#0" expanded="true" />
-                <marker date="1512340460000" expanded="false" signature="2444:2452" ph="&lt;~&gt;" />
+                <element signature="e#3708#3722#0" expanded="true" />
+                <element signature="e#6710#6724#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -476,12 +475,12 @@
       <workItem from="1512085204910" duration="10824000" />
       <workItem from="1512176349046" duration="616000" />
       <workItem from="1512191541416" duration="30741000" />
-      <workItem from="1512328896777" duration="8282000" />
+      <workItem from="1512328896777" duration="11518000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="84653000" />
+    <option name="totallyTimeSpent" value="87889000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -572,9 +571,8 @@
           <caret line="2" column="25" lean-forward="false" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1936#1950#0" expanded="true" />
-            <element signature="e#4342#4356#0" expanded="true" />
-            <marker date="1512340460000" expanded="false" signature="2444:2452" ph="&lt;~&gt;" />
+            <element signature="e#3708#3722#0" expanded="true" />
+            <element signature="e#6710#6724#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -621,9 +619,8 @@
           <caret line="2" column="25" lean-forward="false" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1936#1950#0" expanded="true" />
-            <element signature="e#4342#4356#0" expanded="true" />
-            <marker date="1512340460000" expanded="false" signature="2444:2452" ph="&lt;~&gt;" />
+            <element signature="e#3708#3722#0" expanded="true" />
+            <element signature="e#6710#6724#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -670,9 +667,8 @@
           <caret line="2" column="25" lean-forward="false" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1936#1950#0" expanded="true" />
-            <element signature="e#4342#4356#0" expanded="true" />
-            <marker date="1512340460000" expanded="false" signature="2444:2452" ph="&lt;~&gt;" />
+            <element signature="e#3708#3722#0" expanded="true" />
+            <element signature="e#6710#6724#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -719,9 +715,8 @@
           <caret line="2" column="25" lean-forward="false" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1936#1950#0" expanded="true" />
-            <element signature="e#4342#4356#0" expanded="true" />
-            <marker date="1512340460000" expanded="false" signature="2444:2452" ph="&lt;~&gt;" />
+            <element signature="e#3708#3722#0" expanded="true" />
+            <element signature="e#6710#6724#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -768,9 +763,8 @@
           <caret line="2" column="25" lean-forward="false" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1936#1950#0" expanded="true" />
-            <element signature="e#4342#4356#0" expanded="true" />
-            <marker date="1512340460000" expanded="false" signature="2444:2452" ph="&lt;~&gt;" />
+            <element signature="e#3708#3722#0" expanded="true" />
+            <element signature="e#6710#6724#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -817,9 +811,8 @@
           <caret line="2" column="25" lean-forward="false" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1936#1950#0" expanded="true" />
-            <element signature="e#4342#4356#0" expanded="true" />
-            <marker date="1512340460000" expanded="false" signature="2444:2452" ph="&lt;~&gt;" />
+            <element signature="e#3708#3722#0" expanded="true" />
+            <element signature="e#6710#6724#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -866,9 +859,8 @@
           <caret line="2" column="25" lean-forward="false" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1936#1950#0" expanded="true" />
-            <element signature="e#4342#4356#0" expanded="true" />
-            <marker date="1512340460000" expanded="false" signature="2444:2452" ph="&lt;~&gt;" />
+            <element signature="e#3708#3722#0" expanded="true" />
+            <element signature="e#6710#6724#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -907,9 +899,8 @@
           <caret line="2" column="25" lean-forward="false" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1936#1950#0" expanded="true" />
-            <element signature="e#4342#4356#0" expanded="true" />
-            <marker date="1512340460000" expanded="false" signature="2444:2452" ph="&lt;~&gt;" />
+            <element signature="e#3708#3722#0" expanded="true" />
+            <element signature="e#6710#6724#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1008,13 +999,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cscie55/hw7/LinkStreamer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="15" column="27" lean-forward="true" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
+        <state relative-caret-position="223">
+          <caret line="144" column="28" lean-forward="false" selection-start-line="144" selection-start-column="28" selection-end-line="144" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1936#1950#0" expanded="true" />
-            <element signature="e#4342#4356#0" expanded="true" />
-            <marker date="1512340460000" expanded="false" signature="2444:2452" ph="&lt;~&gt;" />
+            <element signature="e#3708#3722#0" expanded="true" />
+            <element signature="e#6710#6724#0" expanded="true" />
           </folding>
         </state>
       </provider>
